@@ -29,9 +29,16 @@ class CloseCycleAction
                 }
 
                 // حساب جميع الإحصائيات
+                $cycleEnd = now();
+
+                $cycle->workerCycles()->get()->each(function ($workerCycle) use ($cycleEnd) {
+                    $workerCycle->work_end_date = $workerCycle->work_end_date ?? $cycleEnd;
+                    $workerCycle->recalculateWages();
+                });
+
                 $mortalityCount = $cycle->mortalityLogs()->sum('count');
                 $soldCount = $cycle->sales()->sum('bird_count') ?? 0;
-                $cycleDays = $cycle->start_date->diffInDays($cycle->end_date ?? now());
+                $cycleDays = $cycle->start_date->diffInDays($cycleEnd);
 
                 $feedCost = $cycle->feedPurchases()->sum('total');
                 $feedTons = $cycle->feedPurchases()
