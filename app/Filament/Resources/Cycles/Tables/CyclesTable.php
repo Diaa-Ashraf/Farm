@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Cycles\Tables;
 
+use App\Filament\Resources\Cycles\Actions\CloseCycleAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -41,6 +42,7 @@ class CyclesTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
+                CloseCycleAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
